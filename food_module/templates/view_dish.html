@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" type="text/css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+
+  </body>
+</html>
+
+<html>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-4 fixed-top">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'search_food' %}">Food search</a>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link" href="{% url 'recommender_select' %}">Food Recommender</a>
+      </li>
+      <li class="nav-item ">
+      <a class="nav-link" href="{% url 'zomato_search' %}">Restaurants</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Account
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          {% if user.is_authenticated %}
+
+          <a class="dropdown-item"href="{% url 'logout' %}">Logout</a>
+
+
+          {% else %}
+
+          <a class="dropdown-item" href="{% url 'register' %}">Register</a>
+          <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+
+          {% endif %}
+
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<div class="container pt-5 text-center mb-5" style="margin-top:7rem">
+
+  <h1 class="mb-5">{{dish.name}}</h1>
+  <p>Minutes to cook - {{dish.minutes}}</p>
+  <div class="text-center p-4 justify-content-center">
+  <h4 class="m-2">Author's Comment</h4>
+  <p>{{dish.description}}</p>
+</div>
+  <br><hr><br>
+
+<div class="container">
+  <h2 class="mb-4 text-left row">Ingredients</h2>
+
+  {% for i in ingredients %}
+
+  <div class="row text-center justify-content-left ">
+    <pre class="text-center">{{ forloop.counter }} ) {{i.name}}</pre>
+  </div>
+  {% endfor %}
+</div>
+  <br><hr><br>
+
+<div class="container">
+  <h2 class="mb-4 row text-left">Steps</h2>
+
+  {% for i in steps %}
+
+  <div class="row text-center justify-content-left ">
+    <pre>step {{i.number}} ) </pre>
+    <pre> {{i.description}}</pre>
+  </div>
+  {% endfor %}
+</div>
+
+  <br><hr><br>
+<div class="container mb-4 pb-4">
+
+  <h2 class="mb-5">Nutrition facts</h2>
+
+  <div class="row text-center justify-content-center">
+  <p class="col">Carbohydrates - {{nutritions.carbohydrates}} PDV</p>
+      <p class="col">Protein - {{nutritions.protein}} PDV</p>
+      <p class="col">Calories - {{nutritions.calories}}</p>
+        <p class="col">Sugar - {{nutritions.sugar}} PDV</p>
+        <p class="col">Sodium - {{nutritions.sodium}} PDV</p>
+          <p class="col">Saturated Fat - {{nutritions.saturated_fat}} PDV</p>
+          <p class="col">Total Fat - {{nutritions.total_fat}} PDV</p>
+  </div>
+</div>
+
+<div class="container">
+  <a href="{% url "find_dishes" %}" class="col-12 btn btn-secondary pt-3 pb-3">Recommended dishes list</a>
+  </div>
+
+</div>
+
+  </body>
+</html>

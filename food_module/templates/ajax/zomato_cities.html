@@ -1,0 +1,19 @@
+
+<div class="container">
+  <div class="row" style="justify-content:center;">
+    {% for i in cities %}
+  <div class="col-lg-4 mb-4">
+  <div class="card h-100 text-left">
+    
+    <div class="card-body">
+      <h5 class="card-title">{{i.name}}</h5>
+      <p class=""> <img src="{{i.country_flag_url}}" alt="" height=50px width=70px class=""></p>
+      <p><span class="text-info">{{i.country_name}}</span></p>
+     <a href="{% url 'get_restaurents' i.id i.name %}" class="btn btn-dark btn-sm">View Restaurents</a>
+    </div>
+   </div>
+  </div>
+
+          {% endfor %}
+</div>
+</div>

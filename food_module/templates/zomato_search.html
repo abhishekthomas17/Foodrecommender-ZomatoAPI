@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" type="text/css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+
+  </body>
+</html>
+
+<html>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-4 fixed-top">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'search_food' %}">Food search</a>
+      </li>
+      <li class="nav-item ">
+      <a class="nav-link" href="{% url 'recommender_select' %}">Food Recommender</a>
+      </li>
+      <li class="nav-item active">
+      <a class="nav-link" href="{% url 'zomato_search' %}">Restaurants</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Account
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          {% if user.is_authenticated %}
+
+          <a class="dropdown-item"href="{% url 'logout' %}">Logout</a>
+
+
+          {% else %}
+
+          <a class="dropdown-item" href="{% url 'register' %}">Register</a>
+          <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+
+          {% endif %}
+
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<div class="container text-center justify-content-center" style="margin-top:7rem;">
+
+  <h4 class="text-center mb-3 mt-5 pt-5">Search For Cities</h4>
+
+<div class=" bg-light mt-5 col-lg-12 col-md-12 col-sm-12 rounded rounded-pill shadow-sm ">
+
+  <div class="input-group">
+    <input type="text" id="search" name="search" placeholder="Search for Cities" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+      <button id="search_zomato" type="submit" name="search_zomato" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+  </div>
+
+</div>
+</div>
+
+<div class="container mt-5 mb-3" id="cities">
+
+
+</div>
+
+
+
+
+
+<script>
+
+$("#search_zomato").click(function() {
+
+  var search = $('#search').val();
+
+
+  $.ajax({ // initialize an AJAX request
+    url: '/ajax/zomato_cities/',
+    type:'GET', // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+    data: {
+       search: search, // add the country id to the GET parameters
+    },
+    success: function(data) { // `data` is the return of the `load_cities` view function
+      $("#cities").html(data);
+    }
+  });
+
+});
+
+
+
+
+
+</script>
+
+
+
+  </body>
+</html>

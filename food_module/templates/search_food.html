@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" type="text/css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+
+  </body>
+</html>
+
+<html>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-4 fixed-top">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'search_food' %}">Food search</a>
+      </li>
+      <li class="nav-item ">
+      <a class="nav-link" href="{% url 'recommender_select' %}">Food Recommender</a>
+      </li>
+      <li class="nav-item ">
+      <a class="nav-link" href="{% url 'zomato_search' %}">Restaurants</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Account
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          {% if user.is_authenticated %}
+
+          <a class="dropdown-item"href="{% url 'logout' %}">Logout</a>
+
+
+          {% else %}
+
+          <a class="dropdown-item" href="{% url 'register' %}">Register</a>
+          <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+
+          {% endif %}
+
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<div class="container text-center justify-content-center d-flex" style="margin-top:7rem;">
+<div class=" bg-light mt-5 col-lg-8 col-md-12 col-sm-12 rounded rounded-pill shadow-sm ">
+
+  <div class="input-group">
+    <input type="text" id="search" name="search" placeholder="Search for ingredients" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+      <button id="search_ingredient" type="submit" name="search_ingredient" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+  </div>
+
+</div>
+</div>
+
+<div class="col-md-12 text-center">
+
+    {% if messages %}
+    {% for message in messages %}
+
+    <div class="text-center bg-danger" style="padding:20px;margin:20px" role="alert">
+
+      {{message}}
+    </div>
+
+    {% endfor %}
+    {% endif %}
+  </div>
+
+<div class="container mt-5 mb-3" id="ingredients">
+
+
+</div>
+
+<div class="container mt-5 mb-3" id="selected_ingredients">
+
+{% if selected_ingredients %}
+<h3 class="mb-2 mt-4 text-center">Selected Ingredients</h3>
+<hr class="mb-5">
+    <div class="row border p-3 justify-content-center d-flex">
+    {% for i in selected_ingredients %}
+
+        <div class="card m-4" style="width: 18rem;">
+  <div class="card-body">
+    <p class="card-text">{{i}}</p>
+    <button value="{{i}}" id="delete_ingredient{{i}}" name="delete_ingredient{{i}}" onclick="deleted(this)" class="btn btn-outline-danger">Delete ingredient</button>
+  </div>
+</div>
+
+
+    {% endfor %}
+    </div>
+    {% else %}
+
+    <h2 class="text-center">No Ingredients Selected</h2>
+    {% endif %}
+</div>
+
+<div class="container mt-5 mb-5 text-center">
+
+  <a href="{% url 'find_dishes' %}" class="btn btn-secondary col-12 pt-3 pb-3" >Find Dishes</a>
+</div>
+
+<script>
+
+$("#search_ingredient").click(function() {
+
+  var search = $('#search').val();
+
+
+  $.ajax({ // initialize an AJAX request
+    url: '/ajax/search_ingredients/',
+    type:'GET', // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+    data: {
+       search: search, // add the country id to the GET parameters
+    },
+    success: function(data) { // `data` is the return of the `load_cities` view function
+      $("#ingredients").html(data);
+    }
+  });
+
+});
+
+function add(a) {
+
+var val = a.value;
+
+
+$.ajax({ // initialize an AJAX request
+url: '/ajax/add_ingredient/',
+type:'GET', // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+data: {
+val: val, // add the country id to the GET parameters
+},
+success: function(data) { // `data` is the return of the `load_cities` view function
+$("#selected_ingredients").html(data);
+}
+});
+
+}
+
+function deleted(a) {
+
+var val = a.value;
+
+
+$.ajax({ // initialize an AJAX request
+url: '/ajax/delete_ingredient/',
+type:'GET', // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+data: {
+val: val, // add the country id to the GET parameters
+},
+success: function(data) { // `data` is the return of the `load_cities` view function
+$("#selected_ingredients").html(data);
+}
+});
+
+}
+
+
+
+</script>
+
+
+
+  </body>
+</html>

@@ -1,0 +1,29 @@
+
+  <h3 class="mb-5 mt-4 text-center">Choose Dishes </h3>
+  <hr class="mb-3">
+<div class="row  p-3 justify-content-center d-flex">
+{% for i in dishes %}
+
+{% if i.name in selected_dishes %}
+    <div class="card m-4 text-white bg-dark" style="width: 18rem;">
+<div class="card-body text-center">
+  {% if forloop.counter|divisibleby:4 %}<i class="fas fa-drumstick-bite" style="font-size:60px;"></i>{% elif forloop.counter|divisibleby:3 %}<i class="fas fa-hamburger"  style="font-size:60px;"></i>{% elif forloop.counter|divisibleby:2 %}<i class="fas fa-bread-slice" style="font-size:60px;"></i>{% else %}<i class="fas fa-cheese" style="font-size:60px;"></i>{% endif %}
+<p class="card-text">{{i}}</p>
+<button value="{{i}}" id="delete_dish{{i}}" name="delete_dish{{i}}" onclick="deleted(this)" class="btn btn-outline-danger">Delete Dish</button>
+</div>
+</div>
+
+{% else %}
+
+<div class="card m-4" style="width: 18rem;">
+<div class="card-body text-center">
+  {% if forloop.counter|divisibleby:4 %}<i class="fas fa-drumstick-bite" style="font-size:60px;"></i>{% elif forloop.counter|divisibleby:3 %}<i class="fas fa-hamburger"  style="font-size:60px;"></i>{% elif forloop.counter|divisibleby:2 %}<i class="fas fa-bread-slice" style="font-size:60px;"></i>{% else %}<i class="fas fa-cheese" style="font-size:60px;"></i>{% endif %}
+<p class="card-text">{{i}}</p>
+<button value="{{i}}" id="add_dish{{i}}" name="add_dish{{i}}" onclick="add(this)" class="btn btn-outline-success">Add Dish</button>
+</div>
+</div>
+
+
+{% endif %}
+{% endfor %}
+</div>

@@ -1,0 +1,20 @@
+{% if selected_ingredients %}
+<h3 class="mb-2 mt-4 text-center">Selected Ingredients</h3>
+<hr class="mb-5">
+    <div class="row border p-3 justify-content-center d-flex">
+    {% for i in selected_ingredients %}
+
+        <div class="card m-4" style="width: 18rem;">
+  <div class="card-body">
+    <p class="card-text">{{i}}</p>
+    <button value="{{i}}" id="delete_ingredient{{i}}" name="delete_ingredient{{i}}" onclick="deleted(this)" class="btn btn-outline-danger">Delete ingredient</button>
+  </div>
+</div>
+
+
+    {% endfor %}
+    </div>
+    {% else %}
+
+    <h2 class="text-center">No Ingredients Selected</h2>
+    {% endif %}
